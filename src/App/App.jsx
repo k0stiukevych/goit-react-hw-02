@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 
 import Description from "../Description/Description";
 import Options from "../Options/Options";
@@ -14,25 +14,23 @@ function App() {
     bad: 0,
   });
 
-  const updateFeedbackGood = (feedbackType) => {
-    setValues({
-      ...values,
-      good: values.good + 1,
-    });
-  };
+  useEffect(() => {
+    const savedValues = localStorage.getItem("feedbackValues");
+    if (savedValues) {
+      setValues(JSON.parse(savedValues));
+    }
+  }, []);
 
-  const updateFeedbackNeutral = (feedbackType) => {
-    setValues({
-      ...values,
-      neutral: values.neutral + 1,
-    });
-  };
+  // Збереження стану в локальне сховище при кожній зміні
+  useEffect(() => {
+    localStorage.setItem("feedbackValues", JSON.stringify(values));
+  }, [values]);
 
-  const updateFeedbackBad = (feedbackType) => {
-    setValues({
-      ...values,
-      bad: values.bad + 1,
-    });
+  const updateFeedback = (feedbackType) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [feedbackType]: prevValues[feedbackType] + 1,
+    }));
   };
 
   const resetFeedback = () => {
@@ -44,25 +42,27 @@ function App() {
   };
 
   const totalFeedback = values.good + values.neutral + values.bad;
+  const positiveFeedback = totalFeedback
+    ? Math.round((values.good / totalFeedback) * 100)
+    : 0;
 
   return (
     <div>
       <Description />
       <Options
-        propFeedback1={updateFeedbackGood}
-        propFeedback2={updateFeedbackNeutral}
-        propFeedback3={updateFeedbackBad}
+        propFeedback1={() => updateFeedback("good")}
+        propFeedback2={() => updateFeedback("neutral")}
+        propFeedback3={() => updateFeedback("bad")}
         resetFeedback={resetFeedback}
         totalFeedback={totalFeedback}
       />
-
       <Feedback
         propFeedback1={values.good}
         propFeedback2={values.neutral}
         propFeedback3={values.bad}
         totalFeedback={totalFeedback}
+        positiveFeedback={positiveFeedback}
       />
-
       <Notification totalFeedback={totalFeedback} />
     </div>
   );

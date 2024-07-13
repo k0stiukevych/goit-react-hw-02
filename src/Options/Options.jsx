@@ -1,3 +1,5 @@
+import css from "./Options.module.css"
+
 export default function Options({
   propFeedback1,
   propFeedback2,
@@ -6,7 +8,7 @@ export default function Options({
   totalFeedback,
 }) {
   return (
-    <div>
+    <div className={css.container}>
       <button onClick={propFeedback1}>Good</button>
       <button onClick={propFeedback2}>Neutral</button>
       <button onClick={propFeedback3}>Bad</button>

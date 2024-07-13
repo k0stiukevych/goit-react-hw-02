@@ -3,6 +3,7 @@ export default function Feedback({
   propFeedback2,
   propFeedback3,
   totalFeedback,
+  positiveFeedback,
 }) {
   return (
     <>
@@ -11,7 +12,8 @@ export default function Feedback({
           <p>Good: {propFeedback1}</p>
           <p>Neutral: {propFeedback2}</p>
           <p>Bad: {propFeedback3}</p>
-          <p>Total: {totalFeedback}</p>{" "}
+          <p>Total: {totalFeedback}</p>
+          <p>Positive: {positiveFeedback}%</p>
         </div>
       )}
     </>
