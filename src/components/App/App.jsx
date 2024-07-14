@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 
 import Description from "../Description/Description";
 import Options from "../Options/Options";
@@ -56,14 +56,17 @@ function App() {
         resetFeedback={resetFeedback}
         totalFeedback={totalFeedback}
       />
-      <Feedback
-        propFeedback1={values.good}
-        propFeedback2={values.neutral}
-        propFeedback3={values.bad}
-        totalFeedback={totalFeedback}
-        positiveFeedback={positiveFeedback}
-      />
-      <Notification totalFeedback={totalFeedback} />
+
+      {totalFeedback > 0 && (
+        <Feedback
+          propFeedback1={values.good}
+          propFeedback2={values.neutral}
+          propFeedback3={values.bad}
+          totalFeedback={totalFeedback}
+          positiveFeedback={positiveFeedback}
+        />
+      )}
+      {totalFeedback == 0 && <Notification />}
     </div>
   );
 }
